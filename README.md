@@ -1,4 +1,3 @@
-# mobile-arm-redcube-simulation
 # Mobile Robot with Arm Simulation
 
 ## Overview
@@ -73,18 +72,21 @@ python main_updated_fixed.py
 
 ### 4. Arm Control & Inverse Kinematics
 
-* **Planar Arm Model**: Two revolute joints with link lengths $L_1, L_2$.
-* **Analytical IK**: Solve using the Law of Cosines:
+* **Planar Arm Model**: Two revolute joints with link lengths \$L\_1\$ and \$L\_2\$.
+* **Analytical IK**: Solve via the Law of Cosines:
 
-  $$
-    \theta_2 = \cos^{-1}\Bigl(\frac{x^2 + y^2 - L_1^2 - L_2^2}{2 L_1 L_2}\Bigr),
-  $$
+$$
+\theta_2 = \cos^{-1}\left(\frac{x^2 + y^2 - L_1^2 - L_2^2}{2 L_1 L_2}\right)
+$$
 
-  $$
-    \theta_1 = \tan^{-1}(y, x) - \tan^{-1}\Bigl(\frac{L_2 \sin\theta_2}{L_1 + L_2 \cos\theta_2}\Bigr).
-  $$
-* **Joint Limits & Collision Avoidance**: Clamp IK solutions within joint range from the URDF and verify via PyBullet’s `getClosestPoints` for self-collision.
-* **Trajectory Smoothing**: (Future) Fit a cubic B‑spline through intermediate IK waypoints for smooth joint-space motion.
+$$
+\theta_1 = \arctan2(y, x) - \arctan2\left(L_2 \sin\theta_2, L_1 + L_2 \cos\theta_2\right)
+$$
+
+where \$(x, y)\$ is the target position in the arm’s base frame.
+
+* **Joint Limits & Collision Avoidance**: Clamp each \$\theta\_i\$ within URDF-specified ranges and verify no self-collisions using PyBullet’s `getClosestPoints`.
+* **Trajectory Smoothing (Future Work)**: Fit a cubic B-spline through intermediate IK waypoints to generate smooth, continuous joint-space paths.
 
 ### 5. Trajectory Smoothing (Future Work)
 
@@ -117,11 +119,5 @@ python main_updated_fixed.py
 * `main_updated_fixed.py`: Python script containing perception, control, and IK routines.
 * `mycar.urdf`: URDF description of the mobile base and 2-DoF arm.
 * `README.md`: This file.
-
-## License
-
-This project is released under the MIT License.
-
-
 
 <img width="2878" height="1534" alt="image" src="https://github.com/user-attachments/assets/420079ea-56f0-482f-a32b-2a4b38120a23" />
